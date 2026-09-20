@@ -1,0 +1,197 @@
+:root{
+    --bg:#0B0D12;
+    --bg-raised:#12151C;
+    --cyan:#00E5FF;
+    --cyan-dim: rgba(0,229,255,0.35);
+    --blue:#00A3FF;
+    --gold:#C5A059;
+    --white:#FFFFFF;
+    --muted:#A0AEC0;
+    --danger:#FF5C5C;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    height:100%;
+    background:var(--bg);
+  }
+  body{
+    font-family:'Vazirmatn', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    color:var(--white);
+    -webkit-tap-highlight-color: transparent;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    overflow-x:hidden;
+  }
+  html{scroll-padding-top: env(safe-area-inset-top, 0px);}
+
+  /* background texture: faint grid + radial glow, no external images */
+  .bg-scene{
+    position:fixed; inset:0; z-index:-1; overflow:hidden;
+  }
+  .bg-scene::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.05) 1px, transparent 1px);
+    background-size: 42px 42px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 75%);
+  }
+  .bg-glow-1{
+    position:absolute; top:-180px; left:50%; transform:translateX(-50%);
+    width:600px; height:600px; border-radius:9999px;
+    background: radial-gradient(circle, rgba(0,229,255,0.16) 0%, rgba(0,229,255,0) 70%);
+    filter: blur(10px);
+  }
+  .bg-glow-2{
+    position:absolute; bottom:-220px; right:-120px;
+    width:500px; height:500px; border-radius:9999px;
+    background: radial-gradient(circle, rgba(197,160,89,0.10) 0%, rgba(197,160,89,0) 70%);
+  }
+
+  .glow-border{
+    border:1px solid rgba(0,229,255,0.25);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+    box-shadow: 0 0 0 1px rgba(0,229,255,0.02) inset;
+    transition: border-color .25s ease, box-shadow .25s ease, transform .15s ease;
+  }
+  .link-btn{
+    display:flex; align-items:center; gap:14px;
+    padding:16px 18px;
+    border-radius:14px;
+    position:relative;
+  }
+  .link-btn:active{ transform: scale(0.98); }
+  .link-btn:hover, .link-btn:focus-visible{
+    border-color: var(--cyan);
+    box-shadow: 0 0 24px -4px var(--cyan-dim), 0 0 0 1px rgba(0,229,255,0.15) inset;
+  }
+  .link-icon-wrap{
+    width:42px; height:42px; min-width:42px;
+    border-radius:11px;
+    display:flex; align-items:center; justify-content:center;
+    background: rgba(0,229,255,0.08);
+    border:1px solid rgba(0,229,255,0.2);
+    color: var(--cyan);
+  }
+  .brand-logo-img{
+    width:160px; height:160px; max-width:60vw;
+    border-radius:9999px;
+    object-fit:cover;
+    border:1px solid rgba(0,229,255,0.3);
+    filter: drop-shadow(0 0 28px var(--cyan-dim));
+  }
+  .gold-text{ color: var(--gold); }
+  .muted{ color: var(--muted); }
+  .sr-only{
+    position:absolute; width:1px; height:1px;
+    padding:0; margin:-1px; overflow:hidden;
+    clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+
+  .fade-up{ animation: fadeUp .55s cubic-bezier(.16,.84,.44,1) both; }
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+  @media (prefers-reduced-motion: reduce){
+    .fade-up{ animation:none; }
+    .link-btn{ transition:none; }
+  }
+
+  /* Modal */
+  .modal-backdrop{
+    position:fixed; inset:0; background:rgba(4,5,8,0.72);
+    backdrop-filter: blur(6px);
+    display:flex; align-items:flex-end; justify-content:center;
+    z-index:50;
+  }
+  @media (min-width:640px){
+    .modal-backdrop{ align-items:center; }
+  }
+  .modal-card{
+    width:100%; max-width:440px;
+    background: var(--bg-raised);
+    border:1px solid rgba(0,229,255,0.25);
+    box-shadow: 0 0 60px -10px var(--cyan-dim);
+    border-radius: 20px 20px 0 0;
+    padding:26px 22px calc(26px + env(safe-area-inset-bottom,0px));
+  }
+  @media (min-width:640px){
+    .modal-card{ border-radius:20px; padding:28px; }
+  }
+
+  input[type="text"], input[type="password"], input[type="url"], textarea{
+    background: rgba(255,255,255,0.03);
+    border:1px solid rgba(160,174,192,0.25);
+    color:var(--white);
+    border-radius:10px;
+    padding:10px 12px;
+    width:100%;
+    outline:none;
+    font-family:inherit;
+  }
+  input:focus, textarea:focus{
+    border-color: var(--cyan);
+    box-shadow: 0 0 0 3px rgba(0,229,255,0.12);
+  }
+  ::placeholder{ color: rgba(160,174,192,0.55); }
+
+  .btn-primary{
+    background: linear-gradient(135deg, var(--blue), var(--cyan));
+    color:#04121A;
+    font-weight:600;
+    border-radius:10px;
+    padding:10px 16px;
+    transition: filter .2s ease, transform .15s ease;
+  }
+  .btn-primary:hover{ filter:brightness(1.08); }
+  .btn-primary:active{ transform:scale(0.98); }
+  .btn-ghost{
+    border:1px solid rgba(160,174,192,0.3);
+    color:var(--muted);
+    border-radius:10px;
+    padding:10px 14px;
+    transition: border-color .2s ease, color .2s ease;
+  }
+  .btn-ghost:hover{ border-color: var(--cyan); color: var(--white); }
+  .btn-danger{
+    color: var(--danger);
+    border:1px solid rgba(255,92,92,0.35);
+    border-radius:8px;
+    padding:6px 10px;
+  }
+  .btn-danger:hover{ background: rgba(255,92,92,0.08); }
+
+  .admin-card{
+    background: var(--bg-raised);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:14px;
+  }
+  .drag-handle{ cursor:grab; color: var(--muted); }
+  .drag-handle:active{ cursor:grabbing; }
+  .dragging{ opacity:0.4; }
+
+  input:disabled{ opacity:0.5; }
+
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible{
+    outline: 2px solid var(--cyan);
+    outline-offset: 2px;
+  }
+
+  ::-webkit-scrollbar{ width:8px; height:8px; }
+  ::-webkit-scrollbar-thumb{ background: rgba(0,229,255,0.25); border-radius:9999px; }
+  ::-webkit-scrollbar-track{ background:transparent; }
+
+  .toggle-track{
+    width:40px; height:22px; border-radius:9999px;
+    background: rgba(160,174,192,0.25);
+    position:relative; transition: background .2s ease;
+    flex-shrink:0;
+  }
+  .toggle-track.on{ background: linear-gradient(135deg, var(--blue), var(--cyan)); }
+  .toggle-dot{
+    position:absolute; top:2px; left:2px;
+    width:18px; height:18px; border-radius:9999px;
+    background:#fff; transition: left .2s ease;
+  }
+  .toggle-track.on .toggle-dot{ left:20px; }
